@@ -13,6 +13,14 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    // shadcn CLI owns these files — we don't hand-edit them, so the generated
+    // setState-in-effect pattern is exempted instead.
+    files: ["src/components/ui/**", "src/hooks/use-mobile.ts"],
+    rules: {
+      "react-hooks/set-state-in-effect": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

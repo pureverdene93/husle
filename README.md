@@ -1,37 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Төрсөн өдрийн мэндчилгээ
 
-## Getting Started
+Утсанд зориулж хийсэн, 3 хуудастай интерактив мэндчилгээ.
 
-First, run the development server:
+1. **`/`** — битүүмжилсэн дугтуй. Товшиход нээгдэж, дотроос зураг гарч ирээд
+   дараагийн хуудас руу шилжинэ.
+2. **`/mendchilgee`** — гол захидал, эргүүлдэг polaroid зураг, доор нь
+   "Тийм / Үгүй" сонголт. "Үгүй" нь зугтаж, томроод эцэст нь дэлбэрнэ.
+3. **`/baalya`** — бялууны лаа. Бүгдийг нь унтраахад confetti дэлбэрч,
+   төгсгөлийн зураг, үг гарч ирнэ.
+
+## Яаж ажиллуулах вэ
+
+Node.js 20 буюу түүнээс дээш хувилбар хэрэгтэй.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run shaa
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Дараа нь браузераар http://localhost:3000 рүү ор.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> ⚠️ dev server-ийн команд нь `npm run dev` **биш**, `npm run shaa` шүү.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Бусад команд:
 
-## Learn More
+| Команд | Юу хийдэг |
+| --- | --- |
+| `npm run shaa` | Хөгжүүлэлтийн server |
+| `npm run build` | Production билд |
+| `npm run start` | Билд хийсэн хувилбарыг ажиллуулах |
+| `npm run lint` | Кодын шалгалт |
 
-To learn more about Next.js, take a look at the following resources:
+## Текстээ хаанаас солих вэ
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Бүх текст, нэр, зургийн зам нэг л файлд байна:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/lib/data.ts
+```
 
-## Deploy on Vercel
+Компонент рүү орох шаардлагагүй — зөвхөн энэ файлыг л засна.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Файлын доторх хэсгүүд
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# husle
+| Хувьсагч | Аль хуудас | Юу вэ |
+| --- | --- | --- |
+| `TO_NAME` | бүгд | Хэнд зориулсан бэ (гарчиг, зургийн alt) |
+| `COVER` | `/` | Дугтуйтай эхлэлийн текст, дотроос гарах зураг, toast |
+| `LETTER` | `/mendchilgee` | Захидал + polaroid-ын хоёр талын зураг, тайлбар |
+| `LOVE_GATE` | `/mendchilgee` | "Тийм / Үгүй" сонголт, "Үгүй"-н toast-ууд |
+| `CAKE` | `/baalya` | Бялууны текст, хэдэн лаа, төгсгөлийн цонх |
+| `MUSIC` | бүгд | Дэвсгэр дуу (сонголт) |
+| `STEPS` | бүгд | Хуудсуудын дараалал (доод талын цэгүүд эндээс) |
+
+`LOVE_GATE.noToasts` жагсаалтад мөр нэмэхэд "Үгүй" товч дэлбэрэх хүртэлх
+даралтын тоо автоматаар нэмэгдэнэ.
+
+## Зургаа хаана хийх вэ
+
+Бүх зураг `public/photos/` дотор:
+
+| Файл | Хаана харагдах |
+| --- | --- |
+| `husle.jpg` | `/` — дугтуй нээгдэхэд дотроос нь гарч ирнэ (босоо зураг тохирно) |
+| `husle6.jpg` | `/mendchilgee` — polaroid-ын **нүүрэн** тал |
+| `husle4.jpg` | `/mendchilgee` — polaroid-ын **ар** тал (товшиход эргэнэ) |
+| `husle5.jpg` | `/baalya` — лаа унтрахад гарах төгсгөлийн зураг (хэвтээ зураг тохирно) |
+
+Зураг солих хамгийн хялбар арга: ижил нэртэйгээр **дарж бичих**. Өөр нэртэй
+файл ашиглах бол `src/lib/data.ts` доторх замыг нь сольж өг
+(`COVER.photo.src`, `LETTER.photo.front.src`, `LETTER.photo.back.src`,
+`CAKE.finale.photo`).
+
+Зөвлөмж: файлын хэмжээ 500 KB-аас доош байвал утсан дээр хурдан нээгдэнэ.
+
+## Дэвсгэр дуу нэмэх
+
+Дуу нь **анхны байдлаараа унтраатай** байгаа. Асаахын тулд:
+
+1. mp3 файлаа `public/music/` дотор хий, ж: `public/music/song.mp3`
+2. `src/lib/data.ts` дотроос:
+
+```ts
+export const MUSIC = {
+  src: "/music/song.mp3",   // null байсныг сольж бич
+  title: "Дэвсгэр дуу",
+}
+```
+
+Браузер автомат тоглуулахыг хаадаг тул дуу нь **хамгийн эхний товшилтоос**
+эхэлнэ (дугтуйг дарахад). Баруун дээд буланд унтраах товч гарч ирнэ.
+`src` нь `null` бол товч огт харагдахгүй.
+
+## Vercel дээр тавих
+
+1. Энэ хавтсыг GitHub дээр repo болгож push хий
+2. [vercel.com](https://vercel.com) дээр "Add New → Project" гээд тэр repo-гоо сонго
+3. Тохиргоог нь битгий өөрчил — Vercel Next.js-ийг өөрөө таньдаг
+4. "Deploy" дарна
+
+Тусдаа тохиргооны файл, орчны хувьсагч (environment variable) хэрэггүй.
+
+## Бүтэц
+
+```
+src/
+  app/
+    page.tsx              # / — дугтуй
+    mendchilgee/          # захидал + polaroid + Тийм/Үгүй
+    baalya/               # бялуу, лаа, төгсгөлийн цонх
+    template.tsx          # хуудас хооронд шилжих animation
+    layout.tsx  globals.css
+  components/
+    common/               # page-shell, цэгүүд, "Цааш" товч, дуу, дэвсгэр
+    features/<хуудас>/    # тухайн хуудасны interaction
+    ui/                   # shadcn компонент — гараар бүү зас
+  lib/
+    data.ts               # ← БҮХ АГУУЛГА ЭНД
+public/photos/            # ← ЗУРГУУД ЭНД
+```
